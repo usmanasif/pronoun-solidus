@@ -12,7 +12,11 @@
                     <ul class="menu-horizontal">
                         <li>
                             <div class="modal-instance">
-                                <a href="http://trystack.mediumra.re/home-landing-2.html#" class="modal-trigger" data-modal-index="0">Login</a>
+                                <% if spree_user_signed_in? %>
+                                    <a href="<%= destroy_spree_user_session_path %>" class="dropdown__content" >Logout</a>
+                                <% else %>
+                                    <a href="javascript:;" class="modal-trigger" data-modal-index="0">Login</a>
+                                <% end %>
 
                             </div>
                         </li>

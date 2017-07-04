@@ -20,5 +20,6 @@
  *= require theme
  *= require custom
  *= require font-rubiklato
+ *= require my_css
  *= require_self
  */
