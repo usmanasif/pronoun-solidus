@@ -1,0 +1,16 @@
+it:
+  spree:
+    admin:
+      tab:
+        nav_link: "Nav Links"
+    new_nav_link: "Nuovo Nav Link"
+    listing_nav_links: "Lista Nav Links"
+    editing_nav_link: "Modifica Nav Link"
+    back_to_nav_links_list: "Torna alla lista Nav Links"
+  activerecord:
+    attributes:
+      spree/nav_link:
+        name: Name
+        url: Url
+        active: Active
+        position: Position

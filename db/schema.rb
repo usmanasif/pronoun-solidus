@@ -10,25 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170531202131) do
+ActiveRecord::Schema.define(version: 20170704041856) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "delayed_jobs", force: :cascade do |t|
-    t.integer  "priority",   default: 0, null: false
-    t.integer  "attempts",   default: 0, null: false
-    t.text     "handler",                null: false
-    t.text     "last_error"
-    t.datetime "run_at"
-    t.datetime "locked_at"
-    t.datetime "failed_at"
-    t.string   "locked_by"
-    t.string   "queue"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
-  end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",                      null: false
@@ -41,31 +26,6 @@ ActiveRecord::Schema.define(version: 20170531202131) do
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
     t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
-  end
-
-  create_table "links", force: :cascade do |t|
-    t.string   "loc"
-    t.integer  "parent_id"
-    t.integer  "sitemap_id"
-    t.datetime "created_at",                                              null: false
-    t.datetime "updated_at",                                              null: false
-    t.string   "changefreq",                            default: "never"
-    t.string   "lastmod"
-    t.integer  "age_in_months",                         default: 3
-    t.decimal  "priority",      precision: 2, scale: 1, default: "0.5"
-    t.string   "state",                                 default: "valid"
-  end
-
-  create_table "sitemaps", force: :cascade do |t|
-    t.string   "url"
-    t.integer  "user_id"
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
-    t.string   "status",                default: "not started yet"
-    t.integer  "crawl_operation_count", default: 0
-    t.string   "crawl_frequency",       default: "yearly"
-    t.date     "last_run",              default: '2017-06-24'
-    t.date     "next_run"
   end
 
   create_table "spree_addresses", force: :cascade do |t|
@@ -256,6 +216,15 @@ ActiveRecord::Schema.define(version: 20170531202131) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["source_id", "source_type"], name: "index_spree_log_entries_on_source_id_and_source_type", using: :btree
+  end
+
+  create_table "spree_nav_links", force: :cascade do |t|
+    t.string   "name"
+    t.string   "url"
+    t.boolean  "active"
+    t.integer  "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "spree_option_type_prototypes", force: :cascade do |t|
@@ -1230,25 +1199,6 @@ ActiveRecord::Schema.define(version: 20170531202131) do
     t.integer  "zone_members_count", default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.string   "first_name"
-    t.string   "last_name"
-    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
   add_foreign_key "spree_adjustments", "spree_orders", column: "order_id", name: "fk_spree_adjustments_order_id", on_update: :restrict, on_delete: :restrict

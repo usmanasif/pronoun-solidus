@@ -71,3 +71,11 @@ Spree::Api::Config.configure do |config|
 end
 
 Spree.user_class = "Spree::LegacyUser"
+
+Spree::Backend::Config.configure do |config|
+  config.menu_items << config.class::MenuItem.new(
+    [:nav_link],
+    'icon-name',
+    url: :admin_nav_links_path
+  )
+end

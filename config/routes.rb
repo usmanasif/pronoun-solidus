@@ -7,6 +7,15 @@ Rails.application.routes.draw do
   root to: 'pages#home'
   mount Spree::Core::Engine, at: '/shop'
 
-
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+end
+
+Spree::Core::Engine.routes.draw do
+  namespace :admin do
+    resources :nav_links do
+      collection do
+        post :update_positions
+      end
+    end
+  end
 end
