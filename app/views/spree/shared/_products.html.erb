@@ -1,6 +1,9 @@
 <%
   paginated_products = @searcher.retrieve_products if params.key?(:keywords)
   paginated_products ||= products
+  params[:layout] ||= 4
+  params[:layout] = params[:layout].to_i
+  params[:tiles] ||= true
 %>
 
 <% content_for :head do %>
@@ -21,7 +24,63 @@
   <% end %>
 </div>
 
-<% if products.any? %>
+
+<div class="main-container">
+  <% if products.any? %>
+  <section class="space--sm">
+      <div class="container">
+          <div class="row">
+              <div class="col-sm-12">
+                  <div class="masonry <%= params[:tiles] == true ? 'masonry--tiles' : ''%>">
+                      <div class="masonry-filter-container">
+                          <span>Category:</span>
+                          <div class="masonry-filter-holder">
+                              <div class="masonry__filters" data-filter-all-text="All Categories"></div>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="masonry__container">
+                              <div class="masonry__item col-sm-6 col-md-<%= 12 / params[:layout] %>"></div>
+                              <% products.each do |product| %>
+                              <div class="masonry__item col-sm-6 col-md-<%= 12 / params[:layout] %>" data-masonry-filter="product.category">
+                                  <div class="product <%= params[:tiles] == true ? 'product--tile bg--secondary text-center' : '' %>">
+                                    <% cache(@taxon.present? ? [I18n.locale, current_pricing_options, @taxon, product] : [I18n.locale, current_pricing_options, product]) do %>
+                                      <%= link_to image_tag(product.display_image.attachment(:small), itemprop: "image", alt: "Image", title: product.name), action: 'index', controller: 'products', itemprop: 'url' %>
+                                      <a class="block" href="#">
+                                          <div>
+                                              <h5><%= truncate(product.name, length: 15) %></h5>
+                                              <span><%= truncate(product.name, length: 50) %></span>
+                                          </div>
+                                          <div>
+                                              <span class="h4 inline-block type--strikethrough"><%= display_price(product) %></span>
+                                              <span class="h4 inline-block"><%= display_price(product) %></span>
+                                          </div>
+                                      </a>
+                                    <% end %>
+                                  </div>
+                              </div>
+                              <!--end item-->
+                              <% end %>
+                          </div>
+                          <!--end masonry container-->
+                      </div>
+                      <!--end of row-->
+                  </div>
+                  <!--end masonry-->
+              </div>
+          </div>
+          <!--end of row-->
+      </div>
+      <!--end of container-->
+  </section>
+  <% end %>
+</div>
+<!--<div class="loader"></div>-->
+<a class="back-to-top inner-link" href="#start" data-scroll-class="100vh:active">
+  <i class="stack-interface stack-up-open-big"></i>
+</a>
+
+<!-- <% if products.any? %>
   <ul id="products" class="inline product-listing" data-hook>
     <% products.each do |product| %>
       <% url = spree.product_path(product, taxon_id: @taxon.try(:id)) %>
@@ -43,4 +102,4 @@
 
 <% if paginated_products.respond_to?(:total_pages) %>
   <%= paginate paginated_products %>
-<% end %>
+<% end %> -->
