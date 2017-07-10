@@ -18,4 +18,5 @@ Spree::ProductsController.class_eval do
     @taxon = Spree::Taxon.find(params[:taxon_id]) if params[:taxon_id]
     @product_option_types = @product.product_option_types
   end
+  
 end

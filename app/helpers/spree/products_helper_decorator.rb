@@ -15,7 +15,8 @@ Spree::ProductsHelper.class_eval do
         end
         products.uniq
     end
-    def first_level_taxons(taxons)
-        taxons.where(parent_id: 1).or(taxons.where(parent_id: 5))
+    def first_level_taxon(taxon)
+        taxons = taxon.permalink.split('/')
+        if taxons.size < 2 then '' else taxons[1] end
     end
 end
