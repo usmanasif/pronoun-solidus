@@ -1,11 +1,4 @@
 Spree::ProductsController.class_eval do
-  before_action :sanitize_page_params
-
-  def sanitize_page_params
-    params[:tiles] ||= true
-    params[:layout] ||= 4
-    params[:layout] = params[:layout].to_i
-  end
 
   def show
     @variants = @product.

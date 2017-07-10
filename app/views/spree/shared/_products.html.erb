@@ -1,6 +1,9 @@
 <%
   paginated_products = @searcher.retrieve_products if params.key?(:keywords)
   paginated_products ||= products
+  params[:tiles] ||= true
+  params[:layout] ||= 4
+  params[:layout] = params[:layout].to_i
 %>
 
 <% content_for :head do %>
