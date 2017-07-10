@@ -45,7 +45,7 @@
                         <% url = spree.product_path(product, taxon_id: @taxon.try(:id)) %>
                           <% cache(@taxon.present? ? [I18n.locale, current_pricing_options, @taxon, product] : [I18n.locale, current_pricing_options, product]) do %>
                             <div class="masonry__item col-sm-6 col-md-<%= 12 / params[:layout] %>"></div>
-                              <div class="masonry__item col-sm-6 col-md-<%= 12 / params[:layout] %>" data-masonry-filter="<%= product.taxons.map{|taxon| taxon.name}.join(" ") %>">
+                              <div class="masonry__item col-sm-6 col-md-<%= 12 / params[:layout] %>" data-masonry-filter="<%= first_level_taxons(product.taxons).map{|taxon| taxon.name}.join(" ") %>">
                                 <div class="product <%= params[:tiles] == true ? 'product--tile bg--secondary text-center' : '' %>">
                                   <%= link_to image_tag(product.display_image.attachment(:small), itemprop: "image", alt: "Image", title: product.name), url, itemprop: 'url' %>
                                   <%= link_to url, itemprop: 'url', class: "block" do %>
