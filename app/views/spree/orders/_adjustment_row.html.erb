@@ -1,8 +1,10 @@
 <% if adjustments.sum(&:amount) != 0 %>
-  <tr class="adjustment">
-    <td colspan="4" align='right'><h5><%= type %>: <%= label %></h5></td>
-    <td colspan='2'>
-      <h5><%= Spree::Money.new(adjustments.sum(&:amount), currency: @order.currency) %></h5>
-    </td>
-  </tr>
+<div>
+    <div class="col-xs-6">
+        <span class="h5"><%= type %>: <%= label %></span>
+    </div>
+    <div class="col-xs-6 text-right">
+        <span><%= Spree::Money.new(adjustments.sum(&:amount), currency: @order.currency) %></span>
+    </div>
+</div>
 <% end %>

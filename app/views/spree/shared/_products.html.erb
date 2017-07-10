@@ -30,44 +30,46 @@
   <section class="space--sm">
       <div class="container">
           <div class="row">
+            <%= render partial: 'spree/shared/search' %>
               <div class="col-sm-12">
-                  <div class="masonry <%= params[:tiles] == true ? 'masonry--tiles' : ''%>">
-                      <div class="masonry-filter-container">
-                          <span>Category:</span>
-                          <div class="masonry-filter-holder">
-                              <div class="masonry__filters" data-filter-all-text="All Categories"></div>
-                          </div>
+              <div class="masonry <%= params[:tiles] == true ? 'masonry--tiles' : ''%>">
+                  <div class="masonry-filter-container">
+                      <span>Category:</span>
+                      <div class="masonry-filter-holder">
+                          <div class="masonry__filters" data-filter-all-text="All Categories"></div>
                       </div>
-                      <div class="row">
-                          <div class="masonry__container">
-                              <div class="masonry__item col-sm-6 col-md-<%= 12 / params[:layout] %>"></div>
-                              <% products.each do |product| %>
-                              <div class="masonry__item col-sm-6 col-md-<%= 12 / params[:layout] %>" data-masonry-filter="product.category">
-                                  <div class="product <%= params[:tiles] == true ? 'product--tile bg--secondary text-center' : '' %>">
-                                    <% cache(@taxon.present? ? [I18n.locale, current_pricing_options, @taxon, product] : [I18n.locale, current_pricing_options, product]) do %>
-                                      <%= link_to image_tag(product.display_image.attachment(:small), itemprop: "image", alt: "Image", title: product.name), action: 'index', controller: 'products', itemprop: 'url' %>
-                                      <a class="block" href="#">
-                                          <div>
-                                              <h5><%= truncate(product.name, length: 15) %></h5>
-                                              <span><%= truncate(product.name, length: 50) %></span>
-                                          </div>
-                                          <div>
-                                              <span class="h4 inline-block type--strikethrough"><%= display_price(product) %></span>
-                                              <span class="h4 inline-block"><%= display_price(product) %></span>
-                                          </div>
-                                      </a>
-                                    <% end %>
-                                  </div>
+                  </div>
+                  <div class="row">
+                      <div class="masonry__container">
+                        <% products.each do |product| %>
+                        <% url = spree.product_path(product, taxon_id: @taxon.try(:id)) %>
+                          <% cache(@taxon.present? ? [I18n.locale, current_pricing_options, @taxon, product] : [I18n.locale, current_pricing_options, product]) do %>
+                            <div class="masonry__item col-sm-6 col-md-<%= 12 / params[:layout] %>"></div>
+                              <div class="masonry__item col-sm-6 col-md-<%= 12 / params[:layout] %>" data-masonry-filter="<%= product.taxons.map{|taxon| taxon.name}.join(" ") %>">
+                                <div class="product <%= params[:tiles] == true ? 'product--tile bg--secondary text-center' : '' %>">
+                                  <%= link_to image_tag(product.display_image.attachment(:small), itemprop: "image", alt: "Image", title: product.name), url, itemprop: 'url' %>
+                                  <%= link_to url, itemprop: 'url', class: "block" do %>
+                                    <div>
+                                        <h5><%= truncate(product.name, length: 15) %></h5>
+                                        <span><%= truncate(product_description(product), length: 50) %></span>
+                                    </div>
+                                    <div>
+                                        <span class="h4 inline-block type--strikethrough"><%= display_price(product) %></span>
+                                        <span class="h4 inline-block"><%= sale_price(product) %></span>
+                                    </div>
+                                  <% end %>
+                                </div>
                               </div>
                               <!--end item-->
-                              <% end %>
-                          </div>
-                          <!--end masonry container-->
+                            <% end %>
+                          <% end %>
                       </div>
-                      <!--end of row-->
+                      <!--end masonry container-->
                   </div>
-                  <!--end masonry-->
+                  <!--end of row-->
               </div>
+              <!--end masonry-->
+            </div>
           </div>
           <!--end of row-->
       </div>
@@ -75,31 +77,7 @@
   </section>
   <% end %>
 </div>
-<!--<div class="loader"></div>-->
-<a class="back-to-top inner-link" href="#start" data-scroll-class="100vh:active">
-  <i class="stack-interface stack-up-open-big"></i>
-</a>
-
-<!-- <% if products.any? %>
-  <ul id="products" class="inline product-listing" data-hook>
-    <% products.each do |product| %>
-      <% url = spree.product_path(product, taxon_id: @taxon.try(:id)) %>
-      <li id="product_<%= product.id %>" class="columns three <%= cycle("alpha", "secondary", "", "omega secondary", name: "classes") %>" data-hook="products_list_item" itemscope itemtype="http://schema.org/Product">
-        <% cache(@taxon.present? ? [I18n.locale, current_pricing_options, @taxon, product] : [I18n.locale, current_pricing_options, product]) do %>
-          <div class="product-image">
-            <%= link_to image_tag(product.display_image.attachment(:small), itemprop: "image"), url, itemprop: 'url' %>
-          </div>
-          <%= link_to truncate(product.name, length: 50), url, class: 'info', itemprop: "name", title: product.name %>
-          <span itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-            <span class="price selling" itemprop="price"><%= display_price(product) %></span>
-          </span>
-        <% end %>
-      </li>
-    <% end %>
-    <% reset_cycle("classes") %>
-  </ul>
-<% end %>
 
 <% if paginated_products.respond_to?(:total_pages) %>
   <%= paginate paginated_products %>
-<% end %> -->
+<% end %>
