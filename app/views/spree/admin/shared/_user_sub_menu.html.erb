@@ -1,0 +1,8 @@
+<ul class="admin-subnav" data-hook="admin_user_sub_tabs">
+  <% if can? :admin, Spree::User %>
+    <%= tab :users, match_path: '/users' %>
+  <% end %>
+  <% if can? :admin, Spree::User %>
+    <%= tab :admin_users, match_path: '/admin_users' %>
+  <% end %>
+</ul>

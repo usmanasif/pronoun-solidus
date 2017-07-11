@@ -75,7 +75,8 @@ Spree.user_class = "Spree::LegacyUser"
 Spree::Backend::Config.configure do |config|
   config.menu_items << config.class::MenuItem.new(
     [:nav_link],
-    'icon-name',
+    'external-link',
     url: :admin_nav_links_path
   )
 end
+

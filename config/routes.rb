@@ -17,5 +17,6 @@ Spree::Core::Engine.routes.draw do
         post :update_positions
       end
     end
+    get '/admin_users', :to => 'users#admin_users', :as => "admin_users"
   end
 end
