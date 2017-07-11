@@ -1,4 +1,4 @@
-
+$(document).on("turbolinks:load",function() {
 var mr = (function ($, window, document){
     "use strict";
 
@@ -2782,3 +2782,5 @@ mr = (function (mr, $, window, document){
 	  return mr;
 
 }(mr, jQuery, window, document));
+
+});
